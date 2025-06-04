@@ -3,11 +3,14 @@ info:
   title: Keyword Analysis API
   version: 1.0.0
 servers:
-  - url: https://api-service-lively-violet-403.fly.dev
+  - url: https://seo-keyword-api-hebz.onrender.com
 paths:
   /keyword-analysis:
     get:
+      operationId: getKeywordAnalysis
       summary: Hent keyword analyse for et eller flere søgeord
+      tags:
+        - Keyword
       parameters:
         - in: query
           name: keyword
