@@ -27,7 +27,10 @@ def get_keyword_info(keyword):
         "keywords": [keyword],
         "se": "g_dk"
     })
-    info = data["result"]["data"][0]
+    try:
+        info = data["result"]["data"][0]
+    except (KeyError, IndexError):
+        raise ValueError(f"❌ Ingen data fundet for keyword: {keyword}")
     return {
         "keyword": keyword,
         "volume": info["region_queries_count"],
