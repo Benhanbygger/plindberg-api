@@ -5,8 +5,8 @@ import traceback
 import time
 
 app = Flask(__name__)
-
-SERPSTAT_API_KEY = "e77c8fbf342b25e50781a7c32b5f082c"
+import os
+SERPSTAT_API_KEY = os.environ.get("SERPSTAT_API_KEY")
 SERPSTAT_ENDPOINT = "https://api.serpstat.com/v4"
 
 def serpstat_request(method, params):
