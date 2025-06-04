@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Keyword Analysis",
+  "name_for_model": "keywordAnalysis",
+  "description_for_human": "Hent SEO-søgeordsdata, volumen og domæneplacering",
+  "description_for_model": "Brug denne plugin til at hente SEO-data for ét eller flere søgeord via Serpstat, inkl. domæneplacering, volumen og lavthængende frugter.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://seo-keyword-api-hebz.onrender.com/openapi.yaml",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://seo-keyword-api-hebz.onrender.com/logo.png",
+  "contact_email": "support@p-lindberg.dk",
+  "legal_info_url": "https://www.p-lindberg.dk"
+}
