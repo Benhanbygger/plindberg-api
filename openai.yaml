@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: Keyword Analysis API
+  version: 1.0.0
+servers:
+  - url: https://api-service-lively-violet-403.fly.dev
+paths:
+  /keyword-analysis:
+    get:
+      summary: Hent keyword analyse for et eller flere søgeord
+      parameters:
+        - in: query
+          name: keyword
+          description: Et eller flere søgeord
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+            example: ["generator", "elhegn"]
+          style: form
+          explode: true
+        - in: query
+          name: domain
+          description: Domænet som skal analyseres ift. søgeordene
+          required: false
+          schema:
+            type: string
+            example: "p-lindberg.dk"
+      responses:
+        '200':
+          description: En liste med keyword-analyse og relaterede søgeord
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    keyword:
+                      type: string
+                    primary:
+                      type: object
+                      properties:
+                        keyword:
+                          type: string
+                        volume:
+                          type: integer
+                        difficulty:
+                          type: integer
+                        position:
+                          type: string
+                    related_keywords:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          keyword:
+                            type: string
+                          volume:
+                            type: integer
+                          difficulty:
+                            type: integer
+                          score:
+                            type: number
+                          position:
+                            type: string
+                    lavthaengende_frugter:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          keyword:
+                            type: string
+                          volume:
+                            type: integer
+                          difficulty:
+                            type: integer
+                          score:
+                            type: number
+                          position:
+                            type: string
