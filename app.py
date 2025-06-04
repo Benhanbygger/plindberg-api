@@ -5,6 +5,7 @@ import traceback
 import time
 
 app = Flask(__name__)
+
 import os
 SERPSTAT_API_KEY = os.environ.get("SERPSTAT_API_KEY")
 SERPSTAT_ENDPOINT = "https://api.serpstat.com/v4"
@@ -95,5 +96,9 @@ def keyword_analysis():
         traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
+import os
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
