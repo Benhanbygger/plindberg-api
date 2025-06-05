@@ -17,10 +17,18 @@ def home():
 def serpstat_request(method, params):
     headers = {"Content-Type": "application/json", "Token": SERPSTAT_API_KEY}
     payload = {"id": 1, "method": method, "params": params}
-    resp = requests.post(SERPSTAT_ENDPOINT, json=payload, headers=headers)
-    resp.raise_for_status()
-    time.sleep(1.1)
-    return resp.json()
+
+    try:
+        resp = requests.post(SERPSTAT_ENDPOINT, json=payload, headers=headers, timeout=10)
+        resp.raise_for_status()
+        time.sleep(1.1)
+        return resp.json()
+    except requests.exceptions.Timeout:
+        print(f"⏱️ Timeout ved Serpstat-kald: {method}")
+        raise Exception(f"Timeout fra Serpstat på metode: {method}")
+    except Exception as e:
+        print(f"🚨 Serpstat-fejl ({method}): {e}")
+        raise Exception(f"Serpstat API-fejl ({method}): {e}")
 
 def get_keyword_info(keyword):
     data = serpstat_request("SerpstatKeywordProcedure.getKeywordsInfo", {
