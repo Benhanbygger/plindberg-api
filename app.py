@@ -85,7 +85,12 @@ def keyword_analysis():
                 try:
                     info = get_keyword_info(rk)
                     position = get_domain_position(rk, domain)
-                    info["score"] = info["volume"] - info["difficulty"]
+
+                    if info["volume"] is not None and info["difficulty"] is not None:
+                        info["score"] = info["volume"] - info["difficulty"]
+                    else:
+                        info["score"] = 0
+
                     info["position"] = position
                     scored_related.append(info)
 
