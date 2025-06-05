@@ -69,10 +69,10 @@ def keyword_analysis():
     if not keywords:
         return jsonify({"error": "Missing 'keyword' parameter"}), 400
 
-    try:
-        results = []
+    results = []
 
-        for keyword in keywords:
+    for keyword in keywords:
+        try:
             primary_info = get_keyword_info(keyword)
             primary_position = get_domain_position(keyword, domain)
             primary_info["position"] = primary_position
@@ -89,14 +89,12 @@ def keyword_analysis():
                     info["position"] = position
                     scored_related.append(info)
 
-                    # Lavthængende frugter: placering mellem 4 og 21
                     if isinstance(position, int) and 4 <= position <= 21:
                         lavthaengende_frugter.append(info)
 
                 except Exception as inner_e:
                     print(f"ERROR processing related keyword '{rk}': {inner_e}")
                     traceback.print_exc()
-                    continue
 
             top_related = heapq.nlargest(5, scored_related, key=lambda x: x["score"])
 
@@ -107,11 +105,15 @@ def keyword_analysis():
                 "lavthaengende_frugter": lavthaengende_frugter
             })
 
-        return jsonify(results)
+        except Exception as e:
+            print(f"Fejl ved keyword '{keyword}': {e}")
+            traceback.print_exc()
+            results.append({
+                "keyword": keyword,
+                "error": str(e)
+            })
 
-    except Exception as e:
-        traceback.print_exc()
-        return jsonify({"error": str(e)}), 500
+    return jsonify(results)
 
 @app.route("/find-ranking-keywords", methods=["GET"])
 def find_ranking_keywords():
@@ -129,13 +131,13 @@ def find_ranking_keywords():
 
     return jsonify(results)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host="0.0.0.0", port=port)
 @app.errorhandler(Exception)
 def handle_exception(e):
-    import traceback
     return jsonify({
         "error": str(e),
         "trace": traceback.format_exc()
     }), 500
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=port)
